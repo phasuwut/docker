@@ -1,0 +1,28 @@
+
+1.
+sudo apt install curl
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+
+2. 
+command -v nvm
+2.1 off on CMD
+vum
+nvm ls-remote
+2.2 install
+nvm install 14.8.0
+
+3 check version
+node -v
+npm -v
+nvm ls
+
+4. change version node
+nvm install 14.8.0
+nvm install 15.11.0
+
+5. default
+nvm alias default 14.8
+
+
+
+sudo apt install npm
