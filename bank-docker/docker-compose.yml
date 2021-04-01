@@ -1,0 +1,82 @@
+version: '3'
+
+services: 
+
+  database-mysql:
+    image: mysql:8.0
+    container_name: database-mysql-bank
+    volumes: 
+      - database-mysql:/var/lib/mysql
+    restart:  always
+    environment: 
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+    networks: 
+      - dev_network_bank
+    ports:
+      - '3307:3306'
+
+  phpmyadmin:
+    depends_on: 
+      - database-mysql
+    image: phpmyadmin/phpmyadmin:5.1
+    container_name: phpmyadmin-bank
+    restart:  always
+    ports:
+      - '8082:80'
+    environment: 
+      PMA_HOST: database-mysql
+      MYSQL_ROOT_PASSWORD: 1234
+    networks: 
+      - dev_network_bank
+
+  phpmyadmin-connection-etc:
+    image: phpmyadmin/phpmyadmin:5.1
+    container_name: phpmyadmin-connection-etc
+    restart:  always
+    ports:
+      - '8084:80'
+    environment: 
+      PMA_ARBITRARY: 1
+    networks: 
+      - dev_network_bank
+
+  database-mongo:
+    image: 'mongo:4.4.4-bionic'
+    container_name: 'database-mongodb-bank'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    ports:
+      - '27017:27017'
+    volumes:
+      - database-mongo:/data/db
+    networks: 
+      - dev_network_bank
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    restart: always
+    container_name: 'mongo-express-bank'
+    ports:
+      - '8083:8081'
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234      
+      - ME_CONFIG_MONGODB_SERVER=database-mongodb-bank
+    depends_on:
+      - database-mongo
+    networks: 
+      - dev_network_bank
+
+volumes:
+  database-mysql:
+  database-mongo:
+  
+networks: 
+  dev_network_bank:
+    driver: bridge   
+
+
