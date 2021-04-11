@@ -1,6 +1,0 @@
-port 
-
-mysql => '3307:3306'
-phpmyadmin => '8082:80'  ,'8084:80'
-mongo => '27017:27017'
-mongo-express  =>  '8083:8081'
