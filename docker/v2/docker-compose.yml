@@ -86,6 +86,7 @@ services:
 volumes:
   database-mysql:
   database-mongo:
+  jenkins_home:
   
 networks: 
   dev_network_bank:
