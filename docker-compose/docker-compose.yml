@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 
 services:
   database-mysql:
@@ -11,6 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: admin
       MYSQL_PASSWORD: 1234
+     
     networks:
       - dev_network_bank
     ports:
@@ -27,6 +28,7 @@ services:
     environment:
       PMA_HOST: database-mysql
       MYSQL_ROOT_PASSWORD: 1234
+      UPLOAD_LIMIT: 300M
     networks:
       - dev_network_bank
 
@@ -38,6 +40,7 @@ services:
       - "8084:80"
     environment:
       PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 300
     networks:
       - dev_network_bank
 
