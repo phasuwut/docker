@@ -43,82 +43,9 @@ services:
       UPLOAD_LIMIT: 300M
     networks:
       - dev_network_bank
-
-  database-mongo:
-    image: "mongo:4.4.4-bionic"
-    container_name: "database-mongodb-bank"
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 1234
-    ports:
-      - "27017:27017"
-    volumes:
-      - database-mongo:/data/db
-    networks:
-      - dev_network_bank
-
-  mongo-express:
-    image: mongo-express:0.54.0
-    restart: always
-    container_name: "mongo-express-bank"
-    ports:
-      - "8083:8081"
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234
-      - ME_CONFIG_MONGODB_SERVER=database-mongodb-bank
-    depends_on:
-      - database-mongo
-    networks:
-      - dev_network_bank
-
-  jenkins:
-    image: jenkins/jenkins:lts
-    ports:
-      - "8081:8080"
-      - "5001:50000"
-    container_name: jenkins-bank
-    networks:
-      - dev_network_bank
-    privileged: true
-    volumes:
-      - jenkins_home:/var/jenkins_home
-
-  postgres:
-    container_name: database-postgres
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: 'root'
-      POSTGRES_PASSWORD: '1234' 
-    networks:
-      - dev_network_bank
-    ports:
-      - "5432:5432"
-    volumes:
-      - database-postgre:/var/lib/postgresql/data
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: always 
-    depends_on: 
-      - postgres 
-    ports:
-      - "85:80"
-      - "53603:53603"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: 'root@email.com'
-      PGADMIN_DEFAULT_PASSWORD: '1234'
-    networks:
-      - dev_network_bank
     
 volumes:
   database-mysql:
-  database-mongo:
-  jenkins_home:
-  database-postgre:
 
 networks:
   dev_network_bank:
