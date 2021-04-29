@@ -85,10 +85,40 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
 
+  postgres:
+    container_name: database-postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: '1234' 
+    networks:
+      - dev_network_bank
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-postgre:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always 
+    depends_on: 
+      - postgres 
+    ports:
+      - "85:80"
+      - "53603:53603"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'root@email.com'
+      PGADMIN_DEFAULT_PASSWORD: '1234'
+    networks:
+      - dev_network_bank
+    
 volumes:
   database-mysql:
   database-mongo:
   jenkins_home:
+  database-postgre:
 
 networks:
   dev_network_bank:
